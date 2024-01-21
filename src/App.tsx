@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 const App: React.FC = () => {
   const [cartValue, setCartValue] = useState<number>(0);
   const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
   const [numberOfItems, setNumberOfItems] = useState<number>(0);
-  const [orderTime, setOrderTime] = useState<string>('');
+  const [orderTime, setOrderTime] = useState<string>("");
+
+  const calculateDeliveryFee = () => {
+    let deliveryFee = 0;
+
+    // Rule 1: Add surcharge for small orders
+    if (cartValue < 10) {
+      deliveryFee += 10 - cartValue;
+    }
+
+    // Rule 2: Calculate distance-based fee
+    if (deliveryDistance > 1000) {
+      deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
+    } else {
+      deliveryFee += 2;
+    }
+
+    // Additional rules can be implemented similarly
+
+    return deliveryFee;
+  };
+
+  const [deliveryFee, setDeliveryFee] = useState<number>(0);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
       <div>
         <input
           type="number"
@@ -50,8 +58,12 @@ const App: React.FC = () => {
           placeholder="Order Time (as text for now)"
         />
       </div>
+      <div>Calculated Delivery Fee: {deliveryFee}€</div>
+      <button onClick={() => setDeliveryFee(calculateDeliveryFee())}>
+        Calculate Delivery Fee
+      </button>
     </div>
   );
-}
+};
 
 export default App;
