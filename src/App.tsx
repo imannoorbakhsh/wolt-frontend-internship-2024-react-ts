@@ -1,38 +1,42 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useState } from 'react';
+import './App.css';
 
 const App: React.FC = () => {
   const [cartValue, setCartValue] = useState<number>(0);
   const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
   const [numberOfItems, setNumberOfItems] = useState<number>(0);
-  const [orderTime, setOrderTime] = useState<string>("");
+  const [orderTime, setOrderTime] = useState<string>('');
+  const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const calculateDeliveryFee = () => {
-    let deliveryFee = 0;
+    // Reset error message
+    setErrorMessage('');
 
-    // Rule 1: Add surcharge for small orders
-    if (cartValue < 10) {
-      deliveryFee += 10 - cartValue;
+    // Validate inputs
+    if (cartValue < 0 || deliveryDistance < 0 || numberOfItems < 0) {
+      setErrorMessage('Please enter valid values. Negative numbers are not allowed.');
+      return;
     }
 
-    // Rule 2: Calculate distance-based fee
-    if (deliveryDistance > 1000) {
-      deliveryFee += 2 + Math.ceil((deliveryDistance - 1000) / 500);
-    } else {
-      deliveryFee += 2;
-    }
+    let fee = 0;
 
-    // Additional rules can be implemented similarly
+    // Calculation logic here
+    // ...
 
-    return deliveryFee;
+    setDeliveryFee(fee);
   };
-
-  const [deliveryFee, setDeliveryFee] = useState<number>(0);
 
   return (
     <div className="App">
-      <div>
+      <header className="App-header">
+        {/* Your existing content or add a title for your header */}
+        <h1>Delivery Fee Calculator</h1>
+      </header>
+      <header className="App-header">
+        {/* Your existing header content */}
+      </header>
+      <div className="App-content">
         <input
           type="number"
           value={cartValue}
@@ -57,11 +61,15 @@ const App: React.FC = () => {
           onChange={(e) => setOrderTime(e.target.value)}
           placeholder="Order Time (as text for now)"
         />
+        <button onClick={calculateDeliveryFee}>
+          Calculate Delivery Fee
+        </button>
+        {deliveryFee !== null && <p>Calculated Delivery Fee: {deliveryFee}€</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
-      <div>Calculated Delivery Fee: {deliveryFee}€</div>
-      <button onClick={() => setDeliveryFee(calculateDeliveryFee())}>
-        Calculate Delivery Fee
-      </button>
+      <footer className="App-footer">
+        <p>Delivery Fee Calculation</p>
+      </footer>
     </div>
   );
 };
