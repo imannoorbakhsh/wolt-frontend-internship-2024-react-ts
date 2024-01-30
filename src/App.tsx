@@ -30,11 +30,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        {/* Your existing content or add a title for your header */}
         <h1>Delivery Fee Calculator</h1>
-      </header>
-      <header className="App-header">
-        {/* Your existing header content */}
       </header>
       <div className="App-content">
         <input
@@ -42,29 +38,35 @@ const App: React.FC = () => {
           value={cartValue}
           onChange={(e) => setCartValue(Number(e.target.value))}
           placeholder="Cart Value"
+          data-test-id="cartValue" // Added data-test-id attribute
         />
         <input
           type="number"
           value={deliveryDistance}
           onChange={(e) => setDeliveryDistance(Number(e.target.value))}
           placeholder="Delivery Distance (in meters)"
+          data-test-id="deliveryDistance" // Added data-test-id attribute
         />
         <input
           type="number"
           value={numberOfItems}
           onChange={(e) => setNumberOfItems(Number(e.target.value))}
           placeholder="Number of Items"
+          data-test-id="numberOfItems" // Added data-test-id attribute
         />
         <input
           type="text"
           value={orderTime}
           onChange={(e) => setOrderTime(e.target.value)}
           placeholder="Order Time (as text for now)"
+          data-test-id="orderTime" // Added data-test-id attribute
         />
-        <button onClick={calculateDeliveryFee}>
+        <button onClick={calculateDeliveryFee} data-test-id="calculateButton">
           Calculate Delivery Fee
         </button>
-        {deliveryFee !== null && <p>Calculated Delivery Fee: {deliveryFee}€</p>}
+        {deliveryFee !== null && (
+          <p data-test-id="fee">Calculated Delivery Fee: {deliveryFee}€</p>
+        )}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
       <footer className="App-footer">
