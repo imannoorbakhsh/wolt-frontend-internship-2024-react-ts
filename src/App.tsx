@@ -79,59 +79,78 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Delivery Fee Calculator</h1>
-      </header>
-      <div className="App-content">
-        <label>
-          Cart Value (€)
-          <input
-            type="number"
-            value={cartValue}
-            onChange={(e) => setCartValue(parseFloat(e.target.value))}
-            step="0.01" // Allows inputting decimal values
-            data-test-id="cartValue"
-          />
-        </label>
-
-        <label>
-          Delivery Distance (m)
-          <input
-            type="number"
-            value={deliveryDistance}
-            onChange={(e) => setDeliveryDistance(Number(e.target.value))}
-            data-test-id="deliveryDistance"
-          />
-        </label>
-        <label>
-          Number of Items
-          <input
-            type="number"
-            value={numberOfItems}
-            onChange={(e) => setNumberOfItems(Number(e.target.value))}
-            data-test-id="numberOfItems"
-          />
-        </label>
-        <label>
-          Order Time
-          <input
-            type="datetime-local"
-            value={orderTime}
-            onChange={(e) => setOrderTime(e.target.value)}
-            data-test-id="orderTime"
-          />
-        </label>
-        <button onClick={calculateDeliveryFee} data-test-id="calculateButton">
-          Calculate Delivery Fee
-        </button>
-        {deliveryFee !== null && (
-          <p data-test-id="fee">Delivery price: {deliveryFee}€</p>
-        )}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="background-image-container">
+        <div className="overlay-container">
+          <div className="left-container"></div>
+          <div className="right-container">
+            <div className="form-container">
+              {/* Cart Value Field */}
+              <div className="form-field">
+                <label htmlFor="cartValue">Cart Value (€)</label>
+                <input
+                  id="cartValue"
+                  type="number"
+                  value={cartValue}
+                  onChange={(e) => setCartValue(parseFloat(e.target.value))}
+                  step="0.01"
+                  data-test-id="cartValue"
+                />
+              </div>
+  
+              {/* Delivery Distance Field */}
+              <div className="form-field">
+                <label htmlFor="deliveryDistance">Delivery Distance (m)</label>
+                <input
+                  id="deliveryDistance"
+                  type="number"
+                  value={deliveryDistance}
+                  onChange={(e) => setDeliveryDistance(Number(e.target.value))}
+                  data-test-id="deliveryDistance"
+                />
+              </div>
+  
+              {/* Number of Items Field */}
+              <div className="form-field">
+                <label htmlFor="numberOfItems">Number of Items</label>
+                <input
+                  id="numberOfItems"
+                  type="number"
+                  value={numberOfItems}
+                  onChange={(e) => setNumberOfItems(Number(e.target.value))}
+                  data-test-id="numberOfItems"
+                />
+              </div>
+  
+              {/* Order Time Field */}
+              <div className="form-field">
+                <label htmlFor="orderTime">Order Time</label>
+                <input
+                  id="orderTime"
+                  type="datetime-local"
+                  value={orderTime}
+                  onChange={(e) => setOrderTime(e.target.value)}
+                  data-test-id="orderTime"
+                />
+              </div>
+  
+              {/* Calculate Delivery Fee Button */}
+              <button onClick={calculateDeliveryFee} className="submit-button" data-test-id="calculateButton">
+                Calculate Delivery Fee
+              </button>
+  
+              {/* Delivery Fee Display */}
+              {deliveryFee !== null && (
+                <p data-test-id="fee">Delivery price: {deliveryFee.toFixed(2)}€</p>
+              )}
+  
+              {/* Error Message Display */}
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+            </div>
+          </div>
+        </div>
       </div>
-      <footer className="App-footer">Delivery Fee Calculation</footer>
     </div>
-  );
+  );  
 };
 
 export default App;

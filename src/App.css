@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+
 .App-content {
   margin: 20px;
   text-align: left;
@@ -11,7 +14,7 @@ input {
 
 button {
   padding: 8px 16px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -25,7 +28,8 @@ button:hover {
   color: red;
 }
 
-.App-header, .App-footer {
+.App-header,
+.App-footer {
   background-color: #282c34;
   color: white;
   padding: 20px;
@@ -40,4 +44,128 @@ button:hover {
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+/* ...rest of your styles... */
+
+.App {
+  text-align: center;
+  /* Remove flex styles if you want the background to be fixed and cover the whole page */
+}
+
+/* Set the full-page background */
+.background-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the centered overlay container */
+.overlay-container {
+  display: flex;
+  width: 50vw; /* This sets the overlay width to half of the viewport width */
+  height: 35vw; /* This makes the overlay a square */
+  border: 1px solid #000; /* Optional border */
+}
+
+/* Style the left and right containers within the overlay */
+.left-container {
+  width: 45%;
+  background-image: url('/left.jpg');
+  background-size: cover; /* Cover the full area of the container */
+  background-position: center; /* Center the background image */
+}
+
+.right-container {
+  width: 60%; /* Each container takes up half of the overlay width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-container {
+  background-color: #fff; /* White background for the form area */
+  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Rest of your styles remain the same */
+
+/* Make sure the body has no margin to avoid scrollbars */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Hide horizontal scroll */
+}
+
+
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Hide horizontal scroll */
+}
+
+/* Specific Component Styles */
+.right-container {
+  background-color: #fff; /* White background for the form area */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align children to the right */
+  width: 60%; /* Adjust based on your layout requirements */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between form fields */
+  width: 100%; /* Adjust this to fit your design, e.g., 80% to reduce width */
+}
+
+.form-field {
+  display: flex;
+  justify-content: flex-end; /* Align form fields to the right */
+  gap: 10px;
+  width: 100%;
+}
+
+.form-field label {
+  white-space: nowrap; /* Prevents label from wrapping */
+  font-size: 16px; /* Matching input text size */
+}
+
+.form-field input {
+  width: 200px; /* Set a fixed width for all input fields to align them */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #009DE0; /* Adjusted to your color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-end; /* Align the button to the right */
+}
+
+.submit-button:hover {
+  background-color: #000000;
 }
