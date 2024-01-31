@@ -27,9 +27,9 @@ html, body {
 
 .overlay-container {
   display: flex;
-  width: 50vw; /* Half of the viewport width */
-  height: 35vw; /* Makes the overlay square */
-  box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  width: 50vw; 
+  height: 35vw; 
+  box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.5); 
 }
 
 .left-container, .right-container {
@@ -40,7 +40,7 @@ html, body {
 }
 
 .left-container {
-  background-image: url('/wolt3.jpeg');
+  background-image: url('/Wolt_media_kit.jpeg');
   background-size: cover;
   background-position: center;
 }

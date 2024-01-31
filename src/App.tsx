@@ -2,57 +2,82 @@ import React, { useState } from "react";
 import "./App.css";
 
 const App: React.FC = () => {
-  const [cartValue, setCartValue] = useState<number>(0);
-  const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
-  const [numberOfItems, setNumberOfItems] = useState<number>(0);
+  // State for storing form values
+  const [cartValue, setCartValue] = useState<string>("");
+  const [deliveryDistance, setDeliveryDistance] = useState<string>("");
+  const [numberOfItems, setNumberOfItems] = useState<string>("");
   const [orderTime, setOrderTime] = useState<string>("");
-  const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const [touched, setTouched] = useState({
+    cartValueTouched: false,
+    deliveryDistanceTouched: false,
+    numberOfItemsTouched: false,
+  });
+
+  // Function to handle input changes
+  const handleInputChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>, field: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value);
+      setTouched({ ...touched, [field]: true });
+    };
+
+  const allFieldsFilled = () => {
+    return cartValue && deliveryDistance && numberOfItems;
+  };
+
+  const inputStyle = (fieldTouched: boolean, fieldValue: string) => {
+    return fieldTouched && !fieldValue ? { border: "1px solid red" } : {};
+  };
   const calculateDeliveryFee = () => {
-    // Reset error message
+    // reset error message
     setErrorMessage("");
 
-    // Validate inputs
-    if (cartValue < 0 || deliveryDistance < 0 || numberOfItems < 0) {
+    const numCartValue = parseFloat(cartValue || "0");
+    const numDeliveryDistance = parseFloat(deliveryDistance || "0");
+    const numNumberOfItems = parseInt(numberOfItems || "0", 10);
+    // checking for negative values
+    if (numCartValue < 0 || numDeliveryDistance < 0 || numNumberOfItems < 0) {
       setErrorMessage(
         "Please enter valid values. Negative numbers are not allowed."
       );
       return;
     }
 
-    let fee = 0; // Fee in euros
+    let fee = 0; // Fee in euro
 
     // Rule 1: Small order surcharge
-    if (cartValue < 10) {
-      fee += 10 - cartValue; // Directly in euros
+    if (numCartValue < 10) {
+      fee += 10 - numCartValue;
     }
 
     // Rule 2: Calculate distance-based fee
-    fee += 2; // Base fee for the first 1000 meters
-    if (deliveryDistance > 1000) {
-      fee += Math.ceil((deliveryDistance - 1000) / 500); // 1€ for every additional 500 meters or part thereof
+    fee += 2; // Base fee for the first 1000 meters.
+    if (numDeliveryDistance > 1000) {
+      fee += Math.ceil((numDeliveryDistance - 1000) / 500); // 1€ for every additional 500 meters
     }
 
     // Rule 3: Additional 50 cent surcharge for each item above 4
-    if (numberOfItems >= 5) {
-      fee += (numberOfItems - 4) * 0.5; // 50 cents per additional item
+    if (numNumberOfItems >= 5) {
+      fee += (numNumberOfItems - 4) * 0.5; // 50 cents per additional item
     }
 
     // Rule 4: Bulk fee for more than 12 items
-    if (numberOfItems > 12) {
-      fee += 1.2; // 1.20€ bulk fee
+    if (numNumberOfItems > 12) {
+      fee += 1.2;
     }
 
     // Rule 6: Free delivery for cart value equal or more than 200€
-    if (cartValue >= 200) {
+    if (numCartValue >= 200) {
       fee = 0;
     } else {
       // Apply rush hour pricing based on browser's local time
       if (orderTime) {
         const localOrderDate = new Date(orderTime);
         if (!isNaN(localOrderDate.getTime())) {
-          // Log for debugging
+          // debugging local time on console. there is an error
           console.log("Local Order Time:", localOrderDate);
 
           // Rush hour is 3 - 7 PM local time on Fridays
@@ -61,11 +86,11 @@ const App: React.FC = () => {
             localOrderDate.getHours() >= 15 && // Check if it's after 3 PM local time
             localOrderDate.getHours() < 19
           ) {
-            // Check if it's before 7 PM local time
-            console.log("Applying rush hour pricing");
+            // Check if it's before 7 PM
+            console.log("rush hour pricing applied");
             fee *= 1.2; // Rush hour pricing
           } else {
-            console.log("Not applying rush hour pricing");
+            console.log("rush hour pricing not applied!");
           }
         }
       }
@@ -74,7 +99,7 @@ const App: React.FC = () => {
     }
 
     // Update the state with the calculated fee
-    setDeliveryFee(parseFloat(fee.toFixed(2))); // Round to two decimal places for final fee
+    setDeliveryFee(parseFloat(fee.toFixed(2)));
   };
 
   return (
@@ -91,12 +116,17 @@ const App: React.FC = () => {
                   id="cartValue"
                   type="number"
                   value={cartValue}
-                  onChange={(e) => setCartValue(parseFloat(e.target.value))}
+                  placeholder="Enter cart value"
+                  onChange={handleInputChange(setCartValue, "cartValueTouched")}
+                  onBlur={() =>
+                    setTouched({ ...touched, cartValueTouched: true })
+                  }
+                  style={inputStyle(touched.cartValueTouched, cartValue)}
                   step="0.01"
                   data-test-id="cartValue"
                 />
               </div>
-  
+
               {/* Delivery Distance Field */}
               <div className="form-field">
                 <label htmlFor="deliveryDistance">Delivery Distance (m)</label>
@@ -104,11 +134,22 @@ const App: React.FC = () => {
                   id="deliveryDistance"
                   type="number"
                   value={deliveryDistance}
-                  onChange={(e) => setDeliveryDistance(Number(e.target.value))}
+                  placeholder="Enter delivery distance"
+                  onChange={handleInputChange(
+                    setDeliveryDistance,
+                    "deliveryDistanceTouched"
+                  )}
+                  onBlur={() =>
+                    setTouched({ ...touched, deliveryDistanceTouched: true })
+                  }
+                  style={inputStyle(
+                    touched.deliveryDistanceTouched,
+                    deliveryDistance
+                  )}
                   data-test-id="deliveryDistance"
                 />
               </div>
-  
+
               {/* Number of Items Field */}
               <div className="form-field">
                 <label htmlFor="numberOfItems">Number of Items</label>
@@ -116,11 +157,22 @@ const App: React.FC = () => {
                   id="numberOfItems"
                   type="number"
                   value={numberOfItems}
-                  onChange={(e) => setNumberOfItems(Number(e.target.value))}
+                  placeholder="Enter number of items"
+                  onChange={handleInputChange(
+                    setNumberOfItems,
+                    "numberOfItemsTouched"
+                  )}
+                  onBlur={() =>
+                    setTouched({ ...touched, numberOfItemsTouched: true })
+                  }
+                  style={inputStyle(
+                    touched.numberOfItemsTouched,
+                    numberOfItems
+                  )}
                   data-test-id="numberOfItems"
                 />
               </div>
-  
+
               {/* Order Time Field */}
               <div className="form-field">
                 <label htmlFor="orderTime">Order Time</label>
@@ -132,17 +184,23 @@ const App: React.FC = () => {
                   data-test-id="orderTime"
                 />
               </div>
-  
+
               {/* Calculate Delivery Fee Button */}
-              <button onClick={calculateDeliveryFee} className="submit-button" data-test-id="calculateButton">
+              <button
+                onClick={calculateDeliveryFee}
+                className="submit-button"
+                data-test-id="calculateButton"
+                disabled={!allFieldsFilled()}
+              >
                 Calculate Delivery Fee
               </button>
-  
+
               {/* Delivery Fee Display */}
-              {deliveryFee !== null && (
-                <p data-test-id="fee">Delivery price: {deliveryFee.toFixed(2)}€</p>
-              )}
-  
+              {/* Delivery Fee Display */}
+              <p data-test-id="fee">
+                Delivery price:{" "}
+                <span className="fee-value">{deliveryFee.toFixed(2)}€</span>
+              </p>
               {/* Error Message Display */}
               {errorMessage && <p className="error-message">{errorMessage}</p>}
             </div>
@@ -150,7 +208,7 @@ const App: React.FC = () => {
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default App;
