@@ -1,66 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-
-.App-content {
-  margin: 20px;
-  text-align: left;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Hide horizontal scroll */
+  font-family: 'Roboto', sans-serif;
 }
-
-input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 8px;
-}
-
-button {
-  padding: 8px 16px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.error-message {
-  color: red;
-}
-
-.App-header,
-.App-footer {
-  background-color: #282c34;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
-.App-header {
-  /* Additional styling for the header if needed */
-}
-
-.App-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-/* ...rest of your styles... */
 
 .App {
   text-align: center;
-  /* Remove flex styles if you want the background to be fixed and cover the whole page */
 }
 
-/* Set the full-page background */
 .background-image-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('/background.jpg');
+  background-color: #f7f7f7;
   background-size: cover;
   background-attachment: fixed;
   display: flex;
@@ -68,87 +25,57 @@ button:hover {
   align-items: center;
 }
 
-/* Style the centered overlay container */
 .overlay-container {
   display: flex;
-  width: 50vw; /* This sets the overlay width to half of the viewport width */
-  height: 35vw; /* This makes the overlay a square */
-  border: 1px solid #000; /* Optional border */
+  width: 50vw; /* Half of the viewport width */
+  height: 35vw; /* Makes the overlay square */
+  box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.5); /* Drop shadow */
 }
 
-/* Style the left and right containers within the overlay */
-.left-container {
+.left-container, .right-container {
   width: 45%;
-  background-image: url('/left.jpg');
-  background-size: cover; /* Cover the full area of the container */
-  background-position: center; /* Center the background image */
-}
-
-.right-container {
-  width: 60%; /* Each container takes up half of the overlay width */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.left-container {
+  background-image: url('/wolt3.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
 .right-container {
-  background-color: #fff; /* White background for the form area */
+  width: 60%;
+  background-color: #fff;
   padding: 20px;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
 }
 
-/* Rest of your styles remain the same */
-
-/* Make sure the body has no margin to avoid scrollbars */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Hide horizontal scroll */
-}
-
-
-/* Global Styles */
-body {
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Hide horizontal scroll */
-}
-
-/* Specific Component Styles */
-.right-container {
-  background-color: #fff; /* White background for the form area */
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Align children to the right */
-  width: 60%; /* Adjust based on your layout requirements */
-}
-
 .form-container {
+  margin-left: 3vw;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between form fields */
-  width: 100%; /* Adjust this to fit your design, e.g., 80% to reduce width */
+  gap: 20px;
+  align-items: flex-start;
+  width: 50%;
 }
 
 .form-field {
   display: flex;
-  justify-content: flex-end; /* Align form fields to the right */
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
 }
 
 .form-field label {
-  white-space: nowrap; /* Prevents label from wrapping */
-  font-size: 16px; /* Matching input text size */
+  font-size: 16px;
+  margin-bottom: 5px;
 }
 
 .form-field input {
-  width: 200px; /* Set a fixed width for all input fields to align them */
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -156,16 +83,30 @@ body {
 }
 
 .submit-button {
-  padding: 10px 20px;
-  background-color: #009DE0; /* Adjusted to your color */
+  padding: 10px;
+  background-color: #009DE0;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  align-self: flex-end; /* Align the button to the right */
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
   background-color: #000000;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+}
+
+[data-test-id="fee"] {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.fee-value {
+  font-weight: bold;
 }
